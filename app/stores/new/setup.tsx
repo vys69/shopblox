@@ -10,7 +10,7 @@ const SlugSetupPage: React.FC = () => {
     const [slug, setSlug] = useState("");
     const userId = searchParams.get("userId");
     const groupId = searchParams.get("groupId");
-
+    const name = searchParams.get("name");
     const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSlug(e.target.value);
     };
@@ -22,6 +22,7 @@ const SlugSetupPage: React.FC = () => {
             console.log("userId:", userId);
             console.log("groupId:", groupId);
             console.log("slug:", slug);
+            console.log("name:", name);
             const response = await fetch("/api/stores/create", {
                 method: "POST",
                 headers: {
@@ -30,8 +31,7 @@ const SlugSetupPage: React.FC = () => {
                 body: JSON.stringify({
                     userId,
                     groupId,
-                    name: "Your Store Name",
-                    description: "Your Store Description",
+                    name,
                     slug,
                 }),
             });
