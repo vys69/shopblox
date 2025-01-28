@@ -14,6 +14,11 @@ export default async function Dashboard() {
   const stores = await prisma.store.findMany({
     where: {
       userId: user.id,
+      createdAt: {
+        gte: new Date(new Date().setDate(new Date().getDate() - 7)),
+      },
+      name: {
+      },
     },
   });
 
@@ -55,8 +60,9 @@ export default async function Dashboard() {
                 key={store.id}
                 className="p-6 border border-zinc-900 rounded-lg"
               >
-                <h3 className="text-xl text-zinc-300 mb-2">{store.groupName}</h3>
+                <p className="text-zinc-400 mb-4">{store.name}</p>
                 <p className="text-zinc-400 mb-4">/{store.slug}</p>
+                <p className="text-zinc-400 mb-4">{store.createdAt.toLocaleDateString()}</p>
                 <Button
                   asChild
                   variant="outline"
