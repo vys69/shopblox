@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Verified, VerifiedIcon } from "lucide-react";
 import GroupCard from "@/components/groups/GroupCard";
 import { useRouter } from "next/navigation";
+import { validateRequest } from "@/lib/auth";
+
 
 // Define the type for a group
 interface Group {
@@ -27,6 +29,7 @@ interface Group {
 interface User {
     username: string;
     picture: string;
+    id: string;
 }
 
 export default function NewStorePage() {
@@ -67,7 +70,7 @@ export default function NewStorePage() {
         setFormSubmitted(true); // Mark the form as submitted
 
         try {
-            const response = await fetch(`/api/stores?groupId=${groupId}`, {
+            const response = await fetch(`/api/groups/fetch?groupId=${groupId}`, {
                 method: "GET",
             });
 
@@ -116,7 +119,7 @@ export default function NewStorePage() {
             }
 
             // Redirect to the slug setup page with user and group data
-            router.push(`/stores/new/setup?userId=${user?.id}&groupId=${groupData.id}`); // Adjust the path as needed
+            router.push(`/stores/new/setup?userId=${user?.id}&groupId=${groupData.id}&groupName=${groupData.displayName}`); // Adjust the path as needed
 
         } catch (error) {
             console.error("Error adding store:", error);
