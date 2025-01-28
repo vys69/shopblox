@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
@@ -10,6 +10,14 @@ const SlugSetupPage: React.FC = () => {
     const [slug, setSlug] = useState("");
     const userId = searchParams.get("userId");
     const groupId = searchParams.get("groupId");
+    const name = searchParams.get("name");
+    // Log the searchParams to see if they are being retrieved correctly
+    useEffect(() => {
+        console.log("Search Params:", searchParams.toString());
+        console.log("userId:", userId);
+        console.log("groupId:", groupId);
+        console.log("name:", name);
+    }, [searchParams]);
 
     const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSlug(e.target.value);
@@ -18,18 +26,20 @@ const SlugSetupPage: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            // Call the API to create the store with the slug
-            console.log("userId:", userId);
-            console.log("groupId:", groupId);
+            console.log("Submitting with userId:", userId);
+            console.log("Submitting with groupId:", groupId);
             console.log("slug:", slug);
-            const response = await fetch("/api/stores/slug/create", {
-                method: "PATCH",
+            console.log("name:", name); // Log the group name for debugging
+
+            const response = await fetch("/api/stores/create", {
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     userId,
                     groupId,
+                    name,
                     slug,
                 }),
             });
@@ -41,7 +51,7 @@ const SlugSetupPage: React.FC = () => {
             console.log("Store created successfully");
 
             // Redirect to the store page or show a success message
-            router.push("/stores");
+            router.push("/dashboard");
         } catch (error) {
             console.error("Error updating slug:", error);
         }
