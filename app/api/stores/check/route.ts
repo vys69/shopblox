@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma"; // Adjust the import based on your setup
+import { validateRequest } from "@/lib/auth";
 
 export async function GET(request: Request) {
+    const { user } = await validateRequest();
+    if (!user) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
     const groupId = searchParams.get("groupId");

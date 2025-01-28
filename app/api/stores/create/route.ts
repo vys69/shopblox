@@ -2,11 +2,11 @@ import { validateRequest } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
+export async function GET(request: Request) {
   const { session, user } = await validateRequest();
 
   if (!session) {
-    return NextResponse.json({ user: null });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 }); // Return unauthorized if no session
   }
 
   // Get user with roblosecurity status
@@ -38,7 +38,10 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-    const { userId, groupId, name, description, slug } = await request.json();
+    const { userId, groupId, name, slug } = await request.json();
+
+    // Log the incoming data for debugging
+    console.log("Received data:", { userId, groupId, name, slug });
 
     try {
         // Create the store in the database
@@ -47,8 +50,7 @@ export async function POST(request: Request) {
                 userId,
                 groupId,
                 name,
-                description,
-                slug: slug,
+                slug,
             },
         });
 
@@ -58,7 +60,7 @@ export async function POST(request: Request) {
             data: { isSeller: true },
         });
 
-        return NextResponse.json({ store }, { status: 201 });
+        return NextResponse.json(store, { status: 201 });
     } catch (error) {
         console.error("Error creating store or updating user:", error);
         return NextResponse.json({ error: "Failed to create store or update user" }, { status: 500 });
