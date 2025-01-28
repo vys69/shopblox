@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Navigation from '@/components/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-black text-zinc-500 lowercase">
+        <Navigation/>
         <div className="min-h-screen min-w-screen flex items-center justify-center">
           <main className="min-w-full min-h-full max-w-md flex flex-col items-center justify-center">{children}</main>
         </div>
