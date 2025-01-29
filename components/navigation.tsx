@@ -82,8 +82,8 @@ export default function NavigationMenu() {
             </>
           ) : (
             <Button variant="ghost" className="relative h-10 w-10 rounded-full" disabled>
-              <Avatar className="h-10 w-10">
-                <AvatarFallback>...</AvatarFallback>
+              <Avatar className="h-10 w-10 bg-zinc-900">
+                <AvatarFallback>?</AvatarFallback>
               </Avatar>
             </Button>
           )}
