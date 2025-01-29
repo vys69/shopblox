@@ -24,11 +24,6 @@ async function fetchRobloxProducts(groupId: string, retries: number = 3): Promis
 export async function GET(request: NextRequest, { params }: { params: { slug: string } }) {
     const { slug } = params;
 
-    // Validate the request to ensure the user is authenticated
-    const { user } = await validateRequest();
-    if (!user) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
 
     try {
         // Fetch the store from the database using the slug
