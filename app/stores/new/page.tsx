@@ -9,7 +9,7 @@ import { Verified, VerifiedIcon } from "lucide-react";
 import GroupCard from "@/components/groups/GroupCard";
 import { useRouter } from "next/navigation";
 import { validateRequest } from "@/lib/auth";
-
+import Image from "next/image";
 
 // Define the type for a group
 interface Group {
@@ -127,7 +127,7 @@ export default function NewStorePage() {
     };
 
     const handleNoClick = () => {
-       setGroupId("");
+        setGroupId("");
     };
 
     const isUserOwner = () => {
@@ -146,7 +146,7 @@ export default function NewStorePage() {
             {user && (
                 <div className="text-center p-8 border border-zinc-900 shadow-lg">
                     <h2 className="text-3xl font-extrabold text-zinc-300 mt-2 mb-4">welcome, {user.username}!</h2>
-                    <img src={user.picture || "/placeholder.svg"} alt={user.username} className="w-24 h-24 mx-auto mb-4 rounded-full" />
+                    <Image src={user.picture || "/placeholder.svg"} alt={user.username} className="w-24 h-24 mx-auto mb-4 rounded-full" />
                     <p className="mb-8 text-zinc-400">enter the id of the group you want to list on shopblox:</p>
                     <form onSubmit={handleSubmit}>
                         <input type="text" value={groupId} onChange={handleGroupIdChange} placeholder="Group ID" className="w-full p-2 mb-4 border border-zinc-900 rounded-none text-zinc-300 bg-zinc-900" />
@@ -160,7 +160,7 @@ export default function NewStorePage() {
                             <h1 className="text-2xl font-bold text-zinc-300 mt-4">Is this your group?</h1>
                             <GroupCard groupData={groupData} ownerAvatarUrl={ownerAvatarUrl} />
                             <div className="flex justify-between w-full">
-                                <Button 
+                                <Button
                                     className="w-full bg-zinc-900 text-zinc-300 border border-zinc-800 hover:bg-zinc-800 rounded-none"
                                     onClick={handleAddStore}
                                 >

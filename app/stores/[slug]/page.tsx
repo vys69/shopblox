@@ -64,7 +64,7 @@ const StorePage = () => {
     }
     return (
         <div className="p-4 w-screen">
-            <h1 className="text-2xl font-bold text-zinc-100 mb-4">{store?.slug}'s store</h1>
+            <h1 className="text-2xl font-bold text-zinc-100 mb-4">{store?.slug}&apos;s store</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {products.length > 0 ? (
                     products.map((product) => (

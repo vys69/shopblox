@@ -1,6 +1,6 @@
 import React from "react";
 import { Product } from "@/index";
-
+import Image from "next/image";
 interface ProductCardProps {
     product: Product;
 }
@@ -10,7 +10,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="product-card p-4 bg-zinc-900 rounded-none border border-zinc-800">
             <div className="aspect-square w-full bg-zinc-900 rounded-none mb-4">
                 {product.imageUrl ? (
-                    <img 
+                    <Image 
                         src={product.imageUrl} 
                         alt={product.name}
                         className="w-full h-full object-cover rounded-md"

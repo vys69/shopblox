@@ -11,13 +11,6 @@ const SlugSetupPage: React.FC = () => {
     const userId = searchParams.get("userId");
     const groupId = searchParams.get("groupId");
     const name = searchParams.get("name");
-    // Log the searchParams to see if they are being retrieved correctly
-    useEffect(() => {
-        console.log("Search Params:", searchParams.toString());
-        console.log("userId:", userId);
-        console.log("groupId:", groupId);
-        console.log("name:", name);
-    }, [searchParams]);
 
     const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSlug(e.target.value);

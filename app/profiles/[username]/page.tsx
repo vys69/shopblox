@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 
 interface ProfilePageProps {
@@ -83,22 +82,6 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                         </div>
                     </div>
                 )}
-            </div>
-        </div>
-    );
-}
-
-// Loading state
-export function loading() {
-    return (
-        <div className="p-4 w-full max-w-4xl mx-auto">
-            <div className="flex items-start gap-6">
-                <Skeleton className="h-24 w-24 rounded-full" />
-                <div className="space-y-2">
-                    <Skeleton className="h-8 w-48" />
-                    <Skeleton className="h-4 w-32" />
-                    <Skeleton className="h-4 w-40" />
-                </div>
             </div>
         </div>
     );
