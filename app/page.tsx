@@ -16,7 +16,7 @@ export default function Home() {
   useEffect(() => {
     if (loading) return; // Wait for loading to finish
     if (user) {
-      redirect("/dashboard");
+      // redirect("/dashboard");
     }
   }, [loading, user]); // Run effect when loading or user changes
 
@@ -45,8 +45,8 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-black flex flex-col items-center justify-center p-4 space-y-4">
-      <div className="max-w-md w-full text-center p-8 border border-zinc-900 shadow-lg">
+    <div className="h-screen bg-black flex flex-col items-center justify-center p-4 space-y-4" style={{ height: 'calc(100vh - var(--header-height))' }}>
+      <div className="w-full text-center p-8 border border-zinc-900 shadow-lg">
         <h1 className="text-3xl font-bold text-zinc-300 mb-4">
           welcome to shopblox
         </h1>
@@ -63,7 +63,7 @@ export default function Home() {
           </Button>
         </form>
       </div>
-      <div className="max-w-md w-full text-center p-8 border border-zinc-900 shadow-lg">
+      <div className="w-full text-center p-8 border border-zinc-900 shadow-lg">
         <h1 className="text-3xl font-bold text-zinc-300 mb-4">
           not a seller?
         </h1>
@@ -83,6 +83,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
