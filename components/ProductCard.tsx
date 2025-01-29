@@ -1,33 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Product } from "@/index";
 
 interface ProductCardProps {
-  product: Product; // Define the type for the product prop
+    product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchThumbnail = async () => {
-      const response = await fetch(`/api/products/thumbnail?id=${product.id}`);
-      const data = await response.json();
-      if (data.thumbnailUrl) {
-        setThumbnailUrl(data.thumbnailUrl);
-      }
-    };
-
-    fetchThumbnail();
-  }, [product.id]);
-
-  return (
-    <div className="product-card">
-      {thumbnailUrl && <img src={thumbnailUrl} alt={product.name} className="w-full h-auto" />}
-      <h2>{product.name}</h2>
-      <p>{product.description}</p>
-      <a href={`/products/${product.id}`}>View Details</a>
-    </div>
-  );
+    return (
+        <div className="product-card p-4 bg-zinc-900 rounded-none border border-zinc-800">
+            <div className="aspect-square w-full bg-zinc-900 rounded-none mb-4">
+                {product.imageUrl ? (
+                    <img 
+                        src={product.imageUrl} 
+                        alt={product.name}
+                        className="w-full h-full object-cover rounded-md"
+                    />
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center text-zinc-600">
+                        No Image
+                    </div>
+                )}
+            </div>
+            <h3 className="text-zinc-100 font-medium">{product.name}</h3>
+            <p className="text-zinc-400 text-sm mt-1">{product.description}</p>
+            <p className="text-zinc-300 mt-2">R$ {product.price}</p>
+        </div>
+    );
 };
 
 export default ProductCard;
