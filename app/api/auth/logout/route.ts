@@ -1,3 +1,12 @@
+/**
+ * /api/auth/logout:
+ *   post:
+ *     description: Logs out the user
+ *     responses:
+ *       200:
+ *         description: Logged out successfully
+ */
+
 import { validateRequest, lucia, oauth2Client } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";

@@ -9,6 +9,7 @@ const StorePage = () => {
     const { slug } = useParams(); // Use useParams to get the slug from the URL
     const [store, setStore] = useState<Store | null>(null); // Define the type for store
     const [products, setProducts] = useState<Product[]>([]); // Define the type for products
+    const [thumbnails, setThumbnails] = useState<{ [key: string]: string }>({}); // Store thumbnails by product ID
 
     useEffect(() => {
         const fetchStoreData = async () => {
@@ -21,6 +22,17 @@ const StorePage = () => {
                 setStore(data.store);
                 setProducts(data.products || []); // Set products to an empty array if undefined
                 console.log("Products set:", data.products); // Log the products being set
+
+                // Fetch thumbnails for all product IDs
+                const productIds = data.products.map((product: Product) => product.id);
+                const thumbnailResponse = await fetch(`/api/products/thumbnail?id=${productIds.join(',')}`);
+                if (!thumbnailResponse.ok) throw new Error("Failed to fetch thumbnails");
+                const thumbnailData = await thumbnailResponse.json();
+                const thumbnailMap = thumbnailData.data.reduce((acc: { [key: string]: string }, item: any) => {
+                    acc[item.id] = item.imageUrl; // Map product ID to thumbnail URL
+                    return acc;
+                }, {});
+                setThumbnails(thumbnailMap); // Set the thumbnails state
             } catch (error) {
                 console.error("Error fetching store data:", error);
             }

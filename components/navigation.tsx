@@ -21,7 +21,7 @@ export default function NavigationMenu() {
       <nav className="flex items-center gap-x-10">
         <Link href={"/"}>
           <div className="flex items-center gap-x-4">
-            <h1 className="text-2xl font-bold">ShopBlox</h1>
+            <h1 className="text-2xl text-zinc-300 font-bold">shopblox</h1>
           </div>
         </Link>
 
@@ -42,18 +42,18 @@ export default function NavigationMenu() {
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuItem asChild>
-                      <Link href="/profile" className="flex items-center">
+                  <DropdownMenuContent align="end" className="w-56 bg-black border border-zinc-900 rounded-none">
+                    <DropdownMenuItem asChild className="bg-black hover:bg-zinc-900">
+                      <Link href="/profile" className="flex items-center text-zinc-400">
                         <User className="mr-2 h-4 w-4" />
                         Profile
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <ModeToggle />
+                    <DropdownMenuItem className="bg-black hover:bg-zinc-900">
+                      <ModeToggle className="bg-black hover:bg-zinc-900 rounded-none text-zinc-400 fill-zinc-400 hover:fill-zinc-300" />
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <form action="/api/auth/logout" method="POST" className="w-full">
+                    <DropdownMenuItem asChild className="bg-black hover:bg-zinc-900">
+                      <form action="/api/auth/logout" method="POST" className="w-full bg-black hover:bg-zinc-900">
                         <button className="flex w-full items-center text-destructive">
                           <LogOut className="mr-2 h-4 w-4" />
                           Sign out

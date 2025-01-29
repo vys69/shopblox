@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
@@ -78,4 +78,10 @@ const SlugSetupPage: React.FC = () => {
     );
 };
 
-export default SlugSetupPage; 
+const SlugSetupPageWrapper = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+        <SlugSetupPage />
+    </Suspense>
+);
+
+export default SlugSetupPageWrapper; 
