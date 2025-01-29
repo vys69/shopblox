@@ -1,89 +1,142 @@
 # API Documentation
 
-## Auth Endpoints
+## Authentication
 
 ### Logout
-- **Endpoint:** `/app/api/auth/logout`
+- **Endpoint:** `/api/auth/logout`
 - **Request Type:** `POST`
 - **Required Data:** None (session is validated internally)
+- **Response:** 
+    - `200`: Logged out successfully
+    - `302`: Redirect to home page
 
-### Roblox Callback
-- **Endpoint:** `/app/api/auth/roblox/callback`
+### Roblox OAuth Callback
+- **Endpoint:** `/api/auth/roblox/callback`
 - **Request Type:** `GET`
-- **Required Data:**
-  - `code`: The authorization code received from Roblox.
+- **Required Data:** `code` (query parameter)
+- **Response:** 
+    - `302`: Redirect to home page on success
+    - `302`: Redirect to error page on failure
 
-### User Info
-- **Endpoint:** `/app/api/auth/user`
+### Get User
+- **Endpoint:** `/api/auth/user`
 - **Request Type:** `GET`
 - **Required Data:** None (session is validated internally)
+- **Response:** 
+    - `200`: User data
+    - `200`: `{ user: null }` if no user found
 
-## Debug Endpoints
+## Groups
 
-### Debug Request
-- **Endpoint:** `/app/api/debug/[endpoint]`
+### Fetch Group
+- **Endpoint:** `/api/groups/fetch`
 - **Request Type:** `GET`
-- **Required Data:**
-  - `endpoint`: The specific endpoint to debug (e.g., `user`, `product`, `purchase`).
+- **Required Data:** `groupId` (query parameter)
+- **Response:** 
+    - `200`: Group data
+    - `401`: Unauthorized
+    - `400`: Group ID is required
+    - `500`: Failed to fetch group data
 
-## Product Endpoints
-
-### Product Details
-- **Endpoint:** `/app/api/products/[id]`
+### Fetch Group Products
+- **Endpoint:** `/api/groups/products/fetch`
 - **Request Type:** `GET`
-- **Required Data:**
-  - `id`: The ID of the product to fetch.
+- **Required Data:** `groupId` (query parameter)
+- **Response:** 
+    - `200`: Group products data
+    - `401`: Unauthorized
+    - `400`: groupId is required
+    - `500`: Failed to fetch store items
 
-### All Products
-- **Endpoint:** `/app/api/products`
+## Products
+
+### Get Product Thumbnail
+- **Endpoint:** `/api/products/thumbnail`
 - **Request Type:** `GET`
-- **Required Data:** None
+- **Required Data:** `id` (query parameter)
+- **Response:** 
+    - `200`: `{ thumbnailUrl: string }`
+    - `400`: Product ID is required
+    - `404`: Thumbnail not found
+    - `500`: Internal server error
 
-### Product Thumbnails
-- **Endpoint:** `/app/api/products/thumbnails`
+## Search
+
+### Search Stores
+- **Endpoint:** `/api/search/stores`
 - **Request Type:** `GET`
-- **Required Data:**
-  - `ids`: Comma-separated list of item IDs.
+- **Required Data:** `keyword` (query parameter, optional)
+- **Response:** 
+    - `200`: Array of matching stores
+    - `500`: Failed to fetch search results
 
-## Store Endpoints
+## Stores
 
-### Check Store
-- **Endpoint:** `/app/api/stores/check`
+### Get Store by Slug
+- **Endpoint:** `/api/stores/[slug]`
 - **Request Type:** `GET`
-- **Required Data:**
-  - `userId`: The ID of the user.
-  - `groupId`: The ID of the group.
+- **Required Data:** `slug` (route parameter)
+- **Response:** 
+    - `200`: Store and products data
+    - `401`: Unauthorized
+    - `404`: Store not found
+    - `500`: Failed to fetch store and products
+
+### Check Existing Store
+- **Endpoint:** `/api/stores/check`
+- **Request Type:** `GET`
+- **Required Data:** `userId` and `groupId` (query parameters)
+- **Response:** 
+    - `200`: Existing store data or null
+    - `401`: Unauthorized
+    - `400`: Missing userId or groupId
+    - `500`: Failed to check existing store
 
 ### Create Store
-- **Endpoint:** `/app/api/stores/create`
+- **Endpoint:** `/api/stores/create`
 - **Request Type:** `POST`
-- **Required Data:**
-  - `userId`: The ID of the user.
-  - `groupId`: The ID of the group.
-  - `name`: The name of the store.
-  - `description`: A description of the store.
-  - `slug`: A unique slug for the store.
+- **Required Data:** `userId`, `groupId`, `name`, `slug` (in request body)
+- **Response:** 
+    - `201`: Created store data
+    - `500`: Failed to create store or update user
+
+### Fetch Store Items
+- **Endpoint:** `/api/stores/fetch`
+- **Request Type:** `GET`
+- **Required Data:** `groupId` (query parameter)
+- **Response:** 
+    - `200`: Store items data
+    - `401`: Unauthorized
+    - `400`: groupId is required
+    - `500`: Failed to fetch store items
 
 ### Update Store Slug
-- **Endpoint:** `/app/api/stores/slug/update`
+- **Endpoint:** `/api/stores/slug/update`
 - **Request Type:** `PATCH`
-- **Required Data:**
-  - `slug`: The new slug for the store.
-  - `userId`: The ID of the user (from URL params).
-  - `groupId`: The ID of the group (from URL params).
+- **Required Data:** `slug` (in request body), `userId` and `groupId` (in route parameters)
+- **Response:** 
+    - `200`: Updated store data
+    - `401`: Unauthorized
+    - `500`: Failed to update slug
 
-## Thumbnail Endpoints
+## Thumbnails
 
-### Fetch Thumbnail
-- **Endpoint:** `/app/api/thumbnails`
+### Get Thumbnail
+- **Endpoint:** `/api/thumbnails`
 - **Request Type:** `GET`
-- **Required Data:**
-  - `id`: The ID of the asset to fetch the thumbnail for.
+- **Required Data:** `id` (query parameter)
+- **Response:** 
+    - `200`: `{ success: true, data: string }` (thumbnail URL)
+    - `400`: No ID provided
+    - `500`: Failed to fetch thumbnail
 
-## User Endpoints
+## Users
 
-### User Data
-- **Endpoint:** `/app/api/users`
+### Get User Data
+- **Endpoint:** `/api/users`
 - **Request Type:** `GET`
-- **Required Data:**
-  - `userId`: The ID of the user (from query parameters).
+- **Required Data:** `userId` (query parameter)
+- **Response:** 
+    - `200`: User data
+    - `401`: Unauthorized
+    - `500`: Failed to fetch user data
