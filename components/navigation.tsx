@@ -30,11 +30,11 @@ export default function NavigationMenu() {
             <h1 className="text-zinc-400 font-medium">stores</h1>
           </Link>
 
-        {user && user.stores && user.stores.length > 0 && (
-          <Link href={"/"}>
-            <h1 className="text-zinc-400 font-medium">my stores</h1>
-          </Link>
-        )}
+          {user && user.stores && user.stores.length > 0 && (
+            <Link href={"/"}>
+              <h1 className="text-zinc-400 font-medium">my stores</h1>
+            </Link>
+          )}
         </div>
 
         <div className="flex items-center ml-auto gap-x-4">
@@ -43,20 +43,35 @@ export default function NavigationMenu() {
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Button
+                      variant="ghost"
+                      className="relative h-10 w-10 rounded-full"
+                    >
                       <Avatar className="h-10 w-10">
                         {user.picture && (
-                          <AvatarImage src={user.picture} alt={user.username || ''} />
+                          <AvatarImage
+                            src={user.picture}
+                            alt={user.username || ""}
+                          />
                         )}
                         <AvatarFallback>
-                          {user.username?.slice(0, 2).toUpperCase() || '??'}
+                          {user.username?.slice(0, 2).toUpperCase() || "??"}
                         </AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56 bg-black border border-zinc-900 rounded-none">
-                    <DropdownMenuItem asChild className="bg-black hover:bg-zinc-900">
-                      <Link href={`/profiles/${user.username}`} className="flex items-center text-zinc-400">
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-56 bg-black border border-zinc-900 rounded-none"
+                  >
+                    <DropdownMenuItem
+                      asChild
+                      className="bg-black hover:bg-zinc-900"
+                    >
+                      <Link
+                        href={`/profiles/${user.username}`}
+                        className="flex items-center text-zinc-400"
+                      >
                         <User className="mr-2 h-4 w-4" />
                         Profile
                       </Link>
@@ -64,8 +79,15 @@ export default function NavigationMenu() {
                     <DropdownMenuItem className="bg-black hover:bg-zinc-900">
                       <ModeToggle className="bg-black hover:bg-zinc-900 rounded-none text-zinc-400 fill-zinc-400 hover:fill-zinc-300" />
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="bg-black hover:bg-zinc-900">
-                      <form action="/api/auth/logout" method="POST" className="w-full bg-black hover:bg-zinc-900">
+                    <DropdownMenuItem
+                      asChild
+                      className="bg-black hover:bg-zinc-900"
+                    >
+                      <form
+                        action="/api/auth/logout"
+                        method="POST"
+                        className="w-full bg-black hover:bg-zinc-900"
+                      >
                         <button className="flex w-full items-center text-destructive">
                           <LogOut className="mr-2 h-4 w-4" />
                           Sign out
@@ -81,7 +103,11 @@ export default function NavigationMenu() {
               )}
             </>
           ) : (
-            <Button variant="ghost" className="relative h-10 w-10 rounded-full" disabled>
+            <Button
+              variant="ghost"
+              className="relative h-10 w-10 rounded-full"
+              disabled
+            >
               <Avatar className="h-10 w-10 bg-zinc-900">
                 <AvatarFallback>?</AvatarFallback>
               </Avatar>
@@ -91,4 +117,4 @@ export default function NavigationMenu() {
       </nav>
     </div>
   );
-} 
+}

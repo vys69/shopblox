@@ -28,7 +28,7 @@ export async function POST() {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes
+      sessionCookie.attributes,
     );
 
     // Clear the Roblox cookie
@@ -39,4 +39,4 @@ export async function POST() {
     console.error("Logout error:", error);
     return redirect("/");
   }
-} 
+}

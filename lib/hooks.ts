@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 interface User {
   id: string;
@@ -18,14 +18,14 @@ export function useUser() {
   const fetchUser = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/auth/user');
+      const response = await fetch("/api/auth/user");
       if (!response.ok) {
-        throw new Error('Failed to fetch user');
+        throw new Error("Failed to fetch user");
       }
       const data = await response.json();
       setUser(data.user);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load user');
+      setError(err instanceof Error ? err.message : "Failed to load user");
       setUser(null);
     } finally {
       setLoading(false);
@@ -40,6 +40,6 @@ export function useUser() {
     user,
     loading,
     error,
-    refresh: fetchUser
+    refresh: fetchUser,
   };
-} 
+}

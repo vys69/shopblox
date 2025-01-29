@@ -19,7 +19,7 @@ export async function GET(request: Request): Promise<Response> {
       {
         credentials: process.env.CLIENT_SECRET,
         authenticateWith: "request_body",
-      }
+      },
     );
 
     // Get the user info from the access token
@@ -60,7 +60,7 @@ export async function GET(request: Request): Promise<Response> {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes
+      sessionCookie.attributes,
     );
 
     return Response.redirect(new URL("/home", request.url), 302);

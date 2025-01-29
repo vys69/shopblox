@@ -6,22 +6,24 @@ import { Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-export default function ModeToggle({
-  className,
-  size,
-}: Readonly<{
-  className?: string;
-  size?: number;
-}> = {
-  size: 24,
-}) {
+export default function ModeToggle(
+  {
+    className,
+    size,
+  }: Readonly<{
+    className?: string;
+    size?: number;
+  }> = {
+    size: 24,
+  },
+) {
   const { theme, setTheme } = useTheme();
   const [mode, setMode] = useState(theme);
 
   useEffect(() => {
     setMode(theme);
   }, [theme]);
-  
+
   // This is a workaround for the initial render
   // Prevents the hydration mismatch error
   const [hydrated, setHydrated] = useState(false);

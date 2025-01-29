@@ -2,12 +2,12 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const id = searchParams.get('id');
+  const id = searchParams.get("id");
 
   if (!id) {
     return NextResponse.json(
-      { success: false, error: 'No ID provided' },
-      { status: 400 }
+      { success: false, error: "No ID provided" },
+      { status: 400 },
     );
   }
 
@@ -19,7 +19,7 @@ export async function GET(request: Request) {
           Accept: "application/json",
         },
         next: { revalidate: 3600 },
-      }
+      },
     );
 
     if (!response.ok) {
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       success: true,
-      data: thumbnailUrl
+      data: thumbnailUrl,
     });
   } catch (error) {
     console.error("API Error:", error);
@@ -41,7 +41,7 @@ export async function GET(request: Request) {
         error: "Failed to fetch thumbnail",
         details: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
-} 
+}

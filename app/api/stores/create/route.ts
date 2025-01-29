@@ -23,7 +23,7 @@ export async function GET(request: Request) {
       username: user.username,
       nickname: user.nickname,
       picture: user.picture,
-    }
+    },
   });
 
   if (!dbUser) {
@@ -33,36 +33,36 @@ export async function GET(request: Request) {
   return NextResponse.json({
     user: {
       ...dbUser,
-    }
+    },
   });
 }
 
 export async function POST(request: Request) {
-    const { userId, groupId, name, slug } = await request.json();
+  const { userId, groupId, name, slug } = await request.json();
 
-    // Log the incoming data for debugging
-    console.log("Received data:", { userId, groupId, name, slug });
+  try {
+    // Create the store in the database
+    const store = await prisma.store.create({
+      data: {
+        userId,
+        groupId,
+        name,
+        slug,
+      },
+    });
 
-    try {
-        // Create the store in the database
-        const store = await prisma.store.create({
-            data: {
-                userId,
-                groupId,
-                name,
-                slug,
-            },
-        });
+    // Update the user's isSeller status
+    await prisma.user.update({
+      where: { id: userId },
+      data: { isSeller: true },
+    });
 
-        // Update the user's isSeller status
-        await prisma.user.update({
-            where: { id: userId },
-            data: { isSeller: true },
-        });
-
-        return NextResponse.json(store, { status: 201 });
-    } catch (error) {
-        console.error("Error creating store or updating user:", error);
-        return NextResponse.json({ error: "Failed to create store or update user" }, { status: 500 });
-    }
-} 
+    return NextResponse.json(store, { status: 201 });
+  } catch (error) {
+    console.error("Error creating store or updating user:", error);
+    return NextResponse.json(
+      { error: "Failed to create store or update user" },
+      { status: 500 },
+    );
+  }
+}

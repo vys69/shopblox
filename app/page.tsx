@@ -26,7 +26,9 @@ export default function Home() {
       return;
     }
 
-    const response = await fetch(`/api/search/stores?keyword=${encodeURIComponent(term)}`);
+    const response = await fetch(
+      `/api/search/stores?keyword=${encodeURIComponent(term)}`,
+    );
     const data = await response.json();
     setSearchResults(data);
   };
@@ -45,7 +47,10 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen bg-black flex flex-col items-center justify-center p-4 space-y-4" style={{ height: 'calc(100vh - var(--header-height))' }}>
+    <div
+      className="h-screen bg-black flex flex-col items-center justify-center p-4 space-y-4"
+      style={{ height: "calc(100vh - var(--header-height))" }}
+    >
       <div className="w-full text-center p-8 border border-zinc-900 shadow-lg">
         <h1 className="text-3xl font-bold text-zinc-300 mb-4">
           welcome to shopblox
@@ -64,9 +69,7 @@ export default function Home() {
         </form>
       </div>
       <div className="w-full text-center p-8 border border-zinc-900 shadow-lg">
-        <h1 className="text-3xl font-bold text-zinc-300 mb-4">
-          not a seller?
-        </h1>
+        <h1 className="text-3xl font-bold text-zinc-300 mb-4">not a seller?</h1>
         <div className="text-zinc-400 mt-4">
           <Input
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -77,7 +80,12 @@ export default function Home() {
           <div className="border border-zinc-900 shadow-lg bg-black">
             <ul className="text-zinc-400">
               {searchResults.map((item: any) => (
-                <li className="text-zinc-400 p-4 border-b border-zinc-900" key={item.slug}>{item.name} [/{item.slug}]</li>
+                <li
+                  className="text-zinc-400 p-4 border-b border-zinc-900"
+                  key={item.slug}
+                >
+                  {item.name} [/{item.slug}]
+                </li>
               ))}
             </ul>
           </div>

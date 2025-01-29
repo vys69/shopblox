@@ -17,7 +17,7 @@ export async function GET() {
       username: true,
       nickname: true,
       picture: true,
-    }
+    },
   });
 
   if (!dbUser) {
@@ -27,8 +27,6 @@ export async function GET() {
   return NextResponse.json({
     user: {
       ...dbUser,
-    }
+    },
   });
-} 
-
-
+}
