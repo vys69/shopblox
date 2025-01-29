@@ -7,6 +7,7 @@ interface User {
   username: string;
   nickname?: string | null;
   picture?: string | null;
+  stores?: string[] | null;
 }
 
 export function useUser() {
