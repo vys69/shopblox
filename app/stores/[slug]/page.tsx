@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard"; // Import the ProductCard component
 import { useParams } from "next/navigation";
 import { Store, Product } from "@/index"; // Import the types
+import { Skeleton } from "@/components/ui/skeleton";
+import { useUser } from "@/lib/hooks";
 
 const StorePage = () => {
     const { slug } = useParams(); // Use useParams to get the slug from the URL
     const [store, setStore] = useState<Store | null>(null); // Define the type for store
     const [products, setProducts] = useState<Product[]>([]); // Define the type for products
     const [thumbnails, setThumbnails] = useState<{ [key: string]: string }>({}); // Store thumbnails by product ID
+    const { user, loading } = useUser();
 
     useEffect(() => {
         const fetchStoreData = async () => {
@@ -43,12 +46,25 @@ const StorePage = () => {
         }
     }, [slug]);
 
-    if (!store) return <div>Loading...</div>;
-
+    if (loading && !store) {
+        return (
+            <div className="p-4 w-screen">
+                <Skeleton className="h-8 w-48 mb-4 bg-zinc-900" /> {/* Store name skeleton */}
+                <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {[...Array(8)].map((_, index) => (
+                        <div key={index} className="flex flex-col space-y-3">
+                            <Skeleton className="h-[250px] w-full rounded-none bg-zinc-900" /> {/* Product image skeleton */}
+                            <Skeleton className="h-4 w-3/4 rounded-none bg-zinc-900" /> {/* Product title skeleton */}
+                            <Skeleton className="h-4 w-1/4 rounded-none bg-zinc-900" /> {/* Product price skeleton */}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
     return (
-        <div>
-            <h1>{store.name}</h1>
-            <h2>Products</h2>
+        <div className="p-4 w-screen">
+            <h1 className="text-2xl font-bold text-zinc-100 mb-4">{store?.slug}'s store</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {products.length > 0 ? (
                     products.map((product) => (
