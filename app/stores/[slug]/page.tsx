@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard"; // Import the ProductCard component
-import { useParams } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import { Store, Product } from "@/index"; // Import the types
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@/lib/hooks";
+import Link from "next/link";
 
 const StorePage = () => {
   const { slug } = useParams(); // Use useParams to get the slug from the URL
@@ -13,15 +14,21 @@ const StorePage = () => {
   const [products, setProducts] = useState<Product[]>([]); // Define the type for products
   const [thumbnails, setThumbnails] = useState<{ [key: string]: string }>({}); // Store thumbnails by product ID
   const { user, loading } = useUser();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStoreData = async () => {
       try {
-        const response = await fetch(`/api/stores/${slug}`); // Fetch store and products data using the slug
+        const response = await fetch(`/api/stores/${slug}`);
+        if (response.status === 404) {
+          setError("Store not found");
+          return;
+        }
         if (!response.ok) throw new Error("Failed to fetch store data");
+        
         const data = await response.json();
         setStore(data.store);
-        setProducts(data.products || []); // Set products to an empty array if undefined
+        setProducts(data.products || []);
 
         // Fetch thumbnails for all product IDs
         const productIds = data.products.map((product: Product) => product.id);
@@ -41,6 +48,7 @@ const StorePage = () => {
         setThumbnails(thumbnailMap); // Set the thumbnails state
       } catch (error) {
         console.error("Error fetching store data:", error);
+        setError("Failed to load store");
       }
     };
 
@@ -48,6 +56,27 @@ const StorePage = () => {
       fetchStoreData();
     }
   }, [slug]);
+
+  if (error === "Store not found") {
+    notFound();
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[70vh]">
+        <div className="bg-black border border-zinc-900 rounded-lg p-8 text-center">
+          <h1 className="text-2xl font-bold text-zinc-100 mb-2">{error}</h1>
+          <p className="text-zinc-400 mb-4">This store might have been deleted or never existed.</p>
+          <Link 
+            href="/browse" 
+            className="text-blue-500 hover:text-blue-400 transition-colors"
+          >
+            Browse other stores
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (loading && !store) {
     return (

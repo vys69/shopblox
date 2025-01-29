@@ -86,6 +86,7 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL("/", request.url));
   } catch (error) {
     console.error("OAuth Error:", error);
-    return NextResponse.redirect(new URL("/error", request.url));
+    const errorMessage = encodeURIComponent("Failed to authenticate with Roblox. Please try again.");
+    return NextResponse.redirect(new URL(`/error/${errorMessage}`, request.url));
   }
 }

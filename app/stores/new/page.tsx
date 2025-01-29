@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Verified, VerifiedIcon } from "lucide-react";
 import GroupCard from "@/components/groups/GroupCard";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { validateRequest } from "@/lib/auth";
 import Image from "next/image";
 
@@ -145,7 +145,9 @@ export default function NewStorePage() {
 
   if (loading) return <p>Loading...</p>; // Show loading state
   if (error) return <p>Error loading user data: {error}</p>; // Show error state
-
+  if (!user) return (
+    notFound()
+  );
   return (
     <div className="min-h-screen bg-black p-4 flex flex-col items-center justify-center">
       {user && (
@@ -153,7 +155,7 @@ export default function NewStorePage() {
           <h2 className="text-3xl font-extrabold text-zinc-300 mt-2 mb-4">
             welcome, {user.username}!
           </h2>
-          <Image
+          <img
             src={user.picture || "/placeholder.svg"}
             alt={user.username}
             className="w-24 h-24 mx-auto mb-4 rounded-full"

@@ -13,7 +13,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ groupData, ownerAvatarUrl }) => {
     <Card className="w-full text-center border border-zinc-900 shadow-lg bg-zinc-900 border-zinc-800 mt-4 rounded-none">
       <CardContent className="text-zinc-400 font-normal p-6">
         <div className="flex items-center justify-start flex-row space-x-2">
-          <Image
+          <img
             src={ownerAvatarUrl}
             alt="Owner Avatar"
             className="w-16 h-16 ml-2 rounded-full bg-black"

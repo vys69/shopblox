@@ -26,8 +26,12 @@ export default function NavigationMenu() {
         </Link>
 
         <div className="flex items-center gap-x-4">
-          <Link href={"/"}>
-            <h1 className="text-zinc-400 font-medium">stores</h1>
+          <Link href={"/browse"}>
+            <h1 className="text-zinc-400 font-medium">popular stores</h1>
+          </Link>
+
+          <Link href={"/stores/new"}>
+            <h1 className="text-zinc-400 font-medium">create a store</h1>
           </Link>
 
           {user && user.stores && user.stores.length > 0 && (
@@ -52,6 +56,7 @@ export default function NavigationMenu() {
                           <AvatarImage
                             src={user.picture}
                             alt={user.username || ""}
+                            width={'100%'}
                           />
                         )}
                         <AvatarFallback>
@@ -98,7 +103,7 @@ export default function NavigationMenu() {
                 </DropdownMenu>
               ) : (
                 <Link href="/login/roblox">
-                  <Button>Sign in</Button>
+                  <Button className="rounded-none">Sign in</Button>
                 </Link>
               )}
             </>

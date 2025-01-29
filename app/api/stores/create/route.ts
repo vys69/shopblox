@@ -38,31 +38,46 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const { userId, groupId, name, slug } = await request.json();
-
   try {
-    // Create the store in the database
+    const { user } = await validateRequest();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { groupId, slug } = await request.json();
+
+    // Fetch group details from Roblox API
+    const groupResponse = await fetch(`https://groups.roblox.com/v1/groups/${groupId}`);
+    if (!groupResponse.ok) {
+      return NextResponse.json(
+        { error: "Failed to fetch group details" },
+        { status: 400 }
+      );
+    }
+    
+    const groupData = await groupResponse.json();
+    const name = groupData.name;
+
+    // Create the store with the group name
     const store = await prisma.store.create({
       data: {
-        userId,
         groupId,
-        name,
+        name,    // Use the group name from Roblox
         slug,
-      },
+        user: {
+          connect: {
+            id: user.id
+          }
+        }
+      }
     });
 
-    // Update the user's isSeller status
-    await prisma.user.update({
-      where: { id: userId },
-      data: { isSeller: true },
-    });
-
-    return NextResponse.json(store, { status: 201 });
+    return NextResponse.json({ store });
   } catch (error) {
-    console.error("Error creating store or updating user:", error);
+    console.error("Error creating store:", error);
     return NextResponse.json(
-      { error: "Failed to create store or update user" },
-      { status: 500 },
+      { error: "Failed to create store" },
+      { status: 500 }
     );
   }
 }

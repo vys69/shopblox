@@ -36,10 +36,9 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
         <div className="flex items-start gap-6">
           <div className="relative h-24 w-24 rounded-full overflow-hidden">
             {user.picture ? (
-              <Image
+              <img
                 src={user.picture}
                 alt={user.username}
-                fill
                 className="object-cover"
               />
             ) : (
