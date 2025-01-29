@@ -17,13 +17,25 @@ export default function NavigationMenu() {
   const { user, loading } = useUser();
 
   return (
-    <div className="fixed top-0 py-8 w-full px-10">
+    <div className="sticky top-0 py-6 w-full px-10 border-b border-zinc-900 bg-black z-50">
       <nav className="flex items-center gap-x-10">
         <Link href={"/"}>
           <div className="flex items-center gap-x-4">
             <h1 className="text-2xl text-zinc-300 font-bold">shopblox</h1>
           </div>
         </Link>
+
+        <div className="flex items-center gap-x-4">
+          <Link href={"/"}>
+            <h1 className="text-zinc-400 font-medium">stores</h1>
+          </Link>
+
+        {user && user.stores && user.stores.length > 0 && (
+          <Link href={"/"}>
+            <h1 className="text-zinc-400 font-medium">my stores</h1>
+          </Link>
+        )}
+        </div>
 
         <div className="flex items-center ml-auto gap-x-4">
           {!loading ? (
@@ -44,7 +56,7 @@ export default function NavigationMenu() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56 bg-black border border-zinc-900 rounded-none">
                     <DropdownMenuItem asChild className="bg-black hover:bg-zinc-900">
-                      <Link href="/profile" className="flex items-center text-zinc-400">
+                      <Link href={`/profiles/${user.username}`} className="flex items-center text-zinc-400">
                         <User className="mr-2 h-4 w-4" />
                         Profile
                       </Link>
